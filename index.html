@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RN Visita - Sistema em Manutenção">
+    <title>RN Visita - Em Manutenção</title>
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #3A7BD5;
+            --secondary-color: #00D2FF;
+            --dark-text: #2c3e50;
+            --light-gray: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-text);
+            overflow-x: hidden;
+        }
+
+        /* Animação de fundo sutil */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(58, 123, 213, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 210, 255, 0.05) 0%, transparent 50%);
+            animation: pulse 15s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+
+        .maintenance-container {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+            width: 90%;
+            padding: 2rem;
+        }
+
+        .maintenance-card {
+            background: white;
+            backdrop-filter: none;
+            border-radius: 30px;
+            padding: 3rem 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #3a7bd5, #00d2ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+        }
+
+        .icon-container {
+            text-align: center;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .maintenance-icon {
+            font-size: 5rem;
+            background: linear-gradient(135deg, #3a7bd5, #00d2ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: rotate 3s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .icon-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(58, 123, 213, 0.15) 0%, transparent 70%);
+            animation: glow 2s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes glow {
+            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--dark-text);
+            text-shadow: none;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            color: #6c757d;
+        }
+
+        .info-box {
+            background: var(--light-gray);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .info-box i {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .info-box strong {
+            color: var(--dark-text);
+        }
+
+        .info-box p {
+            color: #495057;
+        }
+
+        .progress-wrapper {
+            margin: 2rem 0;
+        }
+
+        .progress {
+            height: 8px;
+            border-radius: 10px;
+            background: var(--light-gray);
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            animation: progress 2s ease-in-out infinite;
+        }
+
+        @keyframes progress {
+            0% { width: 10%; }
+            50% { width: 70%; }
+            100% { width: 10%; }
+        }
+
+        .contact-info {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .contact-info p {
+            color: var(--dark-text);
+        }
+
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .contact-btn:hover {
+            background: var(--secondary-color);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(58, 123, 213, 0.3);
+        }
+
+        /* Botão WhatsApp com gradiente verde */
+        .contact-btn.whatsapp {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+        }
+
+        .contact-btn.whatsapp:hover {
+            background: linear-gradient(135deg, #128C7E, #075E54);
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .footer i {
+            color: var(--primary-color);
+        }
+
+        /* Responsivo */
+        @media (max-width: 576px) {
+            body {
+                align-items: flex-start;
+                padding-top: 2rem;
+            }
+
+            .maintenance-container {
+                width: 95%;
+            }
+
+            .maintenance-card {
+                padding: 1.5rem 1rem;
+                border-radius: 20px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            }
+
+            .logo {
+                font-size: 1.5rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .icon-container {
+                margin: 1rem 0;
+            }
+
+            .icon-glow {
+                width: 100px;
+                height: 100px;
+            }
+
+            .maintenance-icon {
+                font-size: 3rem;
+            }
+
+            h1 {
+                font-size: 1.4rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .subtitle {
+                font-size: 0.95rem;
+                margin-bottom: 1rem;
+            }
+
+            .info-box {
+                padding: 1rem;
+                margin: 1rem 0;
+            }
+
+            .info-box i {
+                font-size: 1.2rem;
+            }
+
+            .info-box p {
+                font-size: 0.9rem;
+            }
+
+            .progress-wrapper {
+                margin: 1.5rem 0;
+            }
+
+            .contact-info {
+                margin-top: 1.5rem;
+            }
+
+            .contact-info p {
+                font-size: 0.9rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .contact-btn {
+                font-size: 0.85rem;
+                padding: 0.6rem 1rem;
+                margin: 0.25rem;
+                display: inline-flex;
+            }
+
+            .footer {
+                margin-top: 1.5rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="maintenance-container">
+        <div class="maintenance-card">
+            <!-- Logo -->
+            <div class="logo">
+                <i class="bi bi-clipboard-check-fill"></i> RN Visita
+            </div>
+
+            <!-- Ícone animado -->
+            <div class="icon-container">
+                <div class="icon-glow"></div>
+                <i class="bi bi-tools maintenance-icon"></i>
+            </div>
+
+            <!-- Título -->
+            <h1>Sistema em Manutenção</h1>
+            <p class="subtitle">
+                Estamos trabalhando para melhorar sua experiência!
+            </p>
+
+            <!-- Informações -->
+            <div class="info-box">
+                <p class="mb-2">
+                    <i class="bi bi-info-circle"></i>
+                    <strong>O que está acontecendo?</strong>
+                </p>
+                <p class="mb-0">
+                    Estamos realizando melhorias e atualizações importantes no sistema para proporcionar uma experiência ainda melhor.
+                </p>
+            </div>
+
+            <div class="info-box">
+                <p class="mb-2">
+                    <i class="bi bi-arrow-clockwise"></i>
+                    <strong>Verificação automática:</strong>
+                </p>
+                <p class="mb-1" id="statusText">Verificando disponibilidade do sistema...</p>
+                <small class="text-muted" id="lastCheck">Última verificação: aguarde...</small>
+            </div>
+
+            <!-- Barra de progresso -->
+            <div class="progress-wrapper">
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar"></div>
+                </div>
+                <p class="text-center mt-2 small">Aguarde, voltaremos em breve...</p>
+            </div>
+
+            <!-- Contato -->
+            <div class="contact-info">
+                <p class="mb-3"><strong>Precisa de suporte urgente?</strong></p>
+                <a href="mailto:desenvolvimento@rntintas.com.br" class="contact-btn">
+                    <i class="bi bi-envelope-fill"></i>
+                    E-mail
+                </a>
+                <a href="https://wa.me/553521053035" class="contact-btn whatsapp" target="_blank">
+                    <i class="bi bi-whatsapp"></i>
+                    WhatsApp
+                </a>
+            </div>
+
+            <!-- Rodapé -->
+            <div class="footer">
+                <p class="mb-0">
+                    <i class="bi bi-shield-check"></i>
+                    RN Tintas - Sistema de Visitas Comerciais
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Configuração
+        const SITE_URL = 'https://rntintas.app.br';
+        const CHECK_INTERVAL = 20000; // 20 segundos
+
+        let checkCount = 0;
+
+        // Verificar se o site principal está online
+        async function checkSiteStatus() {
+            checkCount++;
+            const statusText = document.getElementById('statusText');
+            const lastCheck = document.getElementById('lastCheck');
+            
+            try {
+                // Tenta fazer requisição ao site principal
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 5000); // timeout 5s
+                
+                const response = await fetch(SITE_URL, {
+                    method: 'HEAD',
+                    mode: 'no-cors', // Evita problemas de CORS
+                    cache: 'no-cache',
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                
+                // Se chegou aqui, o site está online
+                statusText.innerHTML = '<i class="bi bi-check-circle me-2"></i>Sistema online! Redirecionando...';
+                statusText.style.color = '#28a745';
+                statusText.style.fontWeight = 'bold';
+                
+                // Aguarda 2 segundos e redireciona
+                setTimeout(() => {
+                    window.location.href = SITE_URL;
+                }, 2000);
+                
+            } catch (error) {
+                // Site ainda em manutenção
+                statusText.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Sistema em manutenção...';
+                statusText.style.color = '#495057';
+                
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('pt-BR');
+                lastCheck.textContent = `Última verificação: ${timeString} (${checkCount}x)`;
+                lastCheck.style.color = '#6c757d';
+            }
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            // Primeira verificação imediata
+            checkSiteStatus();
+            
+            // Verificações periódicas
+            setInterval(checkSiteStatus, CHECK_INTERVAL);
+            
+            console.log(`🔄 Verificação automática ativada (${CHECK_INTERVAL/1000}s)`);
+        });
+    </script>
+</body>
+</html>
