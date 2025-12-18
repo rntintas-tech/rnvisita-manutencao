@@ -1,150 +1,98 @@
 # 🔧 Página de Manutenção - RN Visita
 
-Página HTML standalone para exibir durante manutenções do sistema RN Visita.
+Página standalone HTML para exibir durante manutenções do sistema RN Visita. Design moderno, responsivo e com verificação automática para detectar quando o sistema volta ao ar.
 
-**✨ Destaque:** Verifica automaticamente se o site principal voltou e redireciona sozinho!
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
+![Bootstrap](https://img.shields.io/badge/Bootstrap_5-7952B3?style=flat&logo=bootstrap&logoColor=white)
 
-## ✨ Recursos
+## ✨ Features
 
-* **Arquivo único** - HTML + CSS + JS em um só arquivo
-* **Zero dependências locais** - Bootstrap e ícones via CDN
-* **100% responsivo** - Mobile-first design
-* **Verificação automática** - Checa se rntintas.app.br voltou a cada 20s
-* **Redirecionamento automático** - Volta pro site quando ele estiver online
-* **Zero configuração** - Não precisa editar nada a cada manutenção
-* **Animações modernas** - Ícone girando, barra de progresso, gradientes
-* **Glassmorphism** - Efeito de vidro fosco moderno
+* 🎨 **Design moderno** com glassmorphism e animações suaves
+* 📱 **100% responsivo** - funciona perfeitamente em mobile e desktop
+* 🔄 **Verificação automática** - detecta quando o sistema voltou e redireciona automaticamente
+* ⏱️ **Feedback em tempo real** - mostra quantas verificações já foram feitas
+* 🎯 **Zero configuração** - mesma página serve para todas as manutenções
+* 🚀 **Ultra leve** - arquivo único de ~6KB
+* 🌐 **CDN only** - Bootstrap e ícones via CDN, sem dependências locais
 
-## 🚀 Como Usar
+## 🎨 Design
 
-### 1. Deploy no GitHub Pages
+O design segue o style guide do RN Visita com:
 
-```bash
-# Criar repositório no GitHub
-# Subir o arquivo manutencao.html
-# Ativar GitHub Pages nas configurações
-# URL vai ficar: https://seunome.github.io/repositorio/manutencao.html
-```
+* Gradiente azul (`#3a7bd5 → #00d2ff`) no logo e ícone
+* Gradiente verde WhatsApp (`#25D366 → #128C7E`) no botão de contato
+* Fundo claro com alto contraste para melhor legibilidade
+* Animações CSS nativas (ícone girando, barra de progresso, etc)
 
-### 2. Configurar Digital Ocean
+## 🔄 Como Funciona
 
-No App Platform, quando precisar fazer manutenção:
+A página faz requisições ao site principal (`rntintas.app.br`) a cada 20 segundos. Quando o site volta:
 
-1. Pausar o app ou
-2. Configurar redirect temporário para a página do GitHub Pages
+1. Mostra mensagem "Sistema online! Redirecionando..."
+2. Aguarda 2 segundos
+3. Redireciona automaticamente de volta
 
-### 3. Personalizar (Opcional)
+Durante a manutenção, exibe:
 
-#### Mudar URL do site principal
+* Status atual do sistema
+* Hora da última verificação
+* Contador de tentativas
+* Links de contato (email e WhatsApp)
 
-Linha 222:
+## 🛠️ Stack
 
-```javascript
-const SITE_URL = 'https://rntintas.app.br';
-```
+* **HTML5** - Estrutura semântica
+* **CSS3** - Animações e gradientes nativos
+* **JavaScript (Vanilla)** - Verificação com Fetch API
+* **Bootstrap 5.3** - Grid e componentes base
+* **Bootstrap Icons** - Ícones vetoriais
 
-#### Ajustar intervalo de verificação
-
-Linha 223:
-
-```javascript
-const CHECK_INTERVAL = 20000; // 20 segundos (em milissegundos)
-```
-
-Exemplos:
-
-* `10000` = 10 segundos (mais agressivo)
-* `30000` = 30 segundos (mais suave)
-* `60000` = 1 minuto (economia de recursos)
-
-## 🔄 Como Funciona a Verificação
-
-1. **Página carrega** → Faz primeira verificação imediatamente
-2. **A cada 20s** → Tenta acessar `rntintas.app.br`
-3. **Site ainda offline** → Mostra "Sistema em manutenção..." + hora da última checagem
-4. **Site voltou** → Mostra "Sistema online! Redirecionando..." + aguarda 2s + redireciona
-
-### Indicadores Visuais
+## 📂 Estrutura
 
 ```
-🔄 Sistema em manutenção...
-   Última verificação: 14:35:22 (15x)
+manutencao.html     # Arquivo único standalone (6KB)
 ```
 
-Quando o site voltar:
+Sim, é só um arquivo. Tudo inline: HTML + CSS + JS.
 
-```
-✅ Sistema online! Redirecionando...
-```
+## 🚀 Deploy
 
-## 🎨 Cores do Projeto
+Hospedado no GitHub Pages para disponibilidade 24/7. Durante manutenções no Digital Ocean, o DNS aponta temporariamente para esta página.
 
-```css
---primary-color: #3A7BD5   /* Azul Reenova */
---secondary-color: #00D2FF /* Azul claro gradiente */
-```
+## 💡 Decisões Técnicas
 
-## 📱 Responsividade
+**Por que arquivo único?**
 
-* **Desktop** : Layout centralizado com efeitos completos
-* **Tablet** : Ajustes de espaçamento
-* **Mobile** : Compacto, alinhado ao topo, fontes menores
+* Máxima portabilidade
+* Zero dependências de build
+* Funciona em qualquer servidor/CDN
+* Fácil manutenção
 
-## 🛠️ Troubleshooting
+**Por que verificação a cada 20s?**
 
-### A página não redireciona automaticamente
+* Balance entre responsividade e carga no servidor
+* Timeout de 5s evita travamento se o servidor estiver lento
+* `mode: 'no-cors'` permite verificar sem problemas de CORS
 
-**Problema:** CORS ou firewall bloqueando requisições
+**Por que fundo claro?**
 
-**Solução:** A página usa `mode: 'no-cors'` que funciona na maioria dos casos. Se não funcionar, você pode:
+* Melhor legibilidade (contraste 14:1 vs 3:1 do dark)
+* Menos cansativo para leitura prolongada
+* Mantém identidade visual com acentos azuis
 
-1. Adicionar um endpoint `/health` no seu site que retorna apenas status 200
-2. Mudar a verificação para usar esse endpoint específico
+## 📱 Compatibilidade
 
-### Quer testar localmente
+* ✅ Chrome/Edge 90+
+* ✅ Firefox 88+
+* ✅ Safari 14+
+* ✅ Mobile browsers (iOS/Android)
 
-Abra o arquivo direto no navegador. Ele vai tentar acessar rntintas.app.br e mostrar o comportamento real.
+## 📄 Licença
 
-## 📦 Dependências Externas
-
-* Bootstrap 5.3.0 (CDN)
-* Bootstrap Icons 1.11.0 (CDN)
-
-Funcionam offline após primeiro carregamento (cache do navegador).
-
-## ⚡ Performance
-
-* **Tamanho** : ~6KB (HTML minificado)
-* **Carregamento** : < 1s em 3G
-* **Compatibilidade** : Todos navegadores modernos (Chrome, Firefox, Safari, Edge)
-* **Consumo** : ~1 requisição a cada 20s (muito leve)
-
-## 📝 Workflow Recomendado
-
-```
-1. Site precisa de manutenção
-   ↓
-2. Pausar/redirecionar no Digital Ocean
-   ↓
-3. Usuários veem página do GitHub Pages
-   ↓
-4. Página fica checando automaticamente
-   ↓
-5. Manutenção termina → reativar no Digital Ocean
-   ↓
-6. Página detecta site online → redireciona automaticamente
-   ↓
-7. Usuários voltam pro site sem fazer nada!
-```
-
-## ✅ Vantagens Dessa Abordagem
-
-* ✅ **Zero edição de código** - Mesma página serve pra todas manutenções
-* ✅ **UX perfeita** - Usuário nem precisa recarregar, volta sozinho
-* ✅ **GitHub Pages grátis** - Hospedagem confiável sem custo
-* ✅ **Sem dependências** - Não precisa de backend ou API
-* ✅ **Feedback visual** - Usuário vê quantas vezes já checou
+Projeto pessoal para RN Tintas.
 
 ---
 
-**RN Tintas** - Sistema de Visitas Comerciais
+**Desenvolvido por Gabriel** | [RN Visita](https://github.com/seu-usuario/rn-visita)
